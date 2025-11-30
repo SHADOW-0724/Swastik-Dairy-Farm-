@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swastik Dairy Farm - Pure & Fresh</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'farm-green': '#2F855A',
+                        'farm-light': '#F0FFF4',
+                        'farm-accent': '#C6F6D5',
+                        'cow-white': '#FAFAFA',
+                        'ghee-gold': '#D69E2E',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            scroll-behavior: smooth;
+        }
+        
+        .hero-overlay {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Cart Badge Animation */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop {
+            animation: pop 0.3s ease-in-out;
+        }
+        
+        /* Hide scrollbar for clean modal look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 group">
+                <!-- LOGO SECTION: Check for an uploaded logo image or use the icon fallback -->
+                <div class="w-20 h-20 flex items-center justify-center">
+                    <img src="swastik_logo.png" alt="Swastik Dairy Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="h-full w-auto max-h-20 object-contain hidden" id="main-logo-img">
+                    <div class="w-20 h-20 bg-farm-green rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fa-solid fa-cow"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-farm-green font-serif tracking-wide group-hover:text-green-700 transition">Swastik Dairy</h1>
+                    <p class="text-xs text-gray-500 -mt-1 tracking-wider">PURE VILLAGE FRESHNESS</p>
+                </div>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8 font-medium text-gray-600">
+                <a href="#home" class="hover:text-farm-green transition">Home</a>
+                <a href="#about" class="hover:text-farm-green transition">Our Farm</a>
+                <a href="#products" class="hover:text-farm-green transition">Products</a>
+                <a href="#features" class="hover:text-farm-green transition">Why Us?</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-farm-green transition">
+                    <i class="fa-solid fa-shopping-cart text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full opacity-0 transition-opacity duration-300">0</span>
+                </button>
+                <a href="https://wa.me/919812186467?text=Hello%20Swastik%20Dairy%20Farm,%20I%20am%20interested%20in%20your%20fresh%20products!" target="_blank" class="hidden sm:flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-full font-medium transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Order Now</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="WhatsApp Image 2025-11-29 at 10.05.06 (1).jpeg" alt="Cow and Calf" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="relative z-10 container mx-auto px-4 text-center text-white">
+            <span class="inline-block py-1 px-3 border border-white/30 rounded-full bg-white/10 backdrop-blur-sm text-sm font-medium mb-4 animate-fade-in-up">100% Organic & Pure</span>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-6 leading-tight drop-shadow-lg">
+                Taste the Purity of <br> <span class="text-green-400">Village Life</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-100 max-w-2xl mx-auto mb-10 drop-shadow-md">
+                Fresh Milk, Desi Ghee, Curd, and Lassi delivered straight from our farm to your table. No preservatives, just nature's love.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#products" class="w-full sm:w-auto px-8 py-4 bg-farm-green hover:bg-green-700 text-white rounded-full font-semibold transition shadow-lg text-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-basket-shopping"></i> Shop Fresh
+                </a>
+                <a href="https://wa.me/919812186467?text=Hello,%20I%20have%20a%20query%20about%20your%20products." target="_blank" class="w-full sm:w-auto px-8 py-4 bg-white hover:bg-gray-100 text-gray-800 rounded-full font-semibold transition shadow-lg text-lg">
+                    Contact Farm
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-farm-light">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-serif font-bold text-gray-800 mb-3">Why Choose Swastik?</h2>
+                <div class="w-20 h-1 bg-farm-green mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-16 h-16 mx-auto bg-green-100 text-farm-green rounded-full flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">100% Natural</h3>
+                    <p class="text-gray-600 text-sm">No chemicals, no preservatives. Just pure produce as nature intended.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-16 h-16 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Hygenic Process</h3>
+                    <p class="text-gray-600 text-sm">Milked and packed with the utmost care and hygiene standards.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-16 h-16 mx-auto bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-cow"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Happy Cows</h3>
+                    <p class="text-gray-600 text-sm">Our cattle are fed organic fodder and treated with love and respect.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-16 h-16 mx-auto bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Farm to Home</h3>
+                    <p class="text-gray-600 text-sm">Direct delivery to your doorstep ensuring maximum freshness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="w-full lg:w-1/2 relative">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-farm-accent rounded-full opacity-50 z-0"></div>
+                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-yellow-100 rounded-full opacity-50 z-0"></div>
+                    <img src="WhatsApp Image 2025-11-29 at 10.05.05 (1).jpeg" alt="Our Cows" class="relative z-10 w-full rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500">
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <h4 class="text-farm-green font-bold tracking-widest uppercase mb-2">Our Story</h4>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6">Rooted in Tradition, Delivering Health.</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        At <strong>Swastik Dairy Farm</strong>, we believe that good health starts with good food. Located in the heart of the village, our farm is dedicated to bringing you the authentic taste of rural India.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        Our cows and buffaloes graze freely and are fed natural fodder, resulting in milk that is rich, creamy, and full of nutrition. From our traditional Bilona Ghee to our fresh thick Curd, every product is a testament to our commitment to purity.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="text-center">
+                            <h5 class="text-2xl font-bold text-farm-green">100+</h5>
+                            <p class="text-xs text-gray-500">Happy Cattle</p>
+                        </div>
+                        <div class="h-10 w-px bg-gray-300"></div>
+                        <div class="text-center">
+                            <h5 class="text-2xl font-bold text-farm-green">500+</h5>
+                            <p class="text-xs text-gray-500">Daily Customers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-serif font-bold text-gray-800 mb-4">Our Fresh Products</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Choose from our range of pure dairy products. Select the quantity you need and add it to your cart.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8" id="product-grid">
+                <!-- Products will be injected here by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t-4 border-farm-green">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <h2 class="text-2xl font-serif font-bold text-white mb-2">Swastik Dairy Farm</h2>
+                    <p class="text-gray-400 text-sm">Purity you can trust, taste you will love.</p>
+                </div>
+                
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-farm-green transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-farm-green transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/919812186467" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2025 Swastik Dairy Farm. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar Modal -->
+    <div id="cart-modal" class="fixed inset-0 z-[60] hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        
+        <!-- Cart Panel -->
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl transform transition-transform duration-300 translate-x-full flex flex-col" id="cart-panel">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fa-solid fa-basket-shopping text-farm-green"></i> Your Cart
+                </h3>
+                <button onclick="toggleCart()" class="text-gray-400 hover:text-red-500 transition">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar" id="cart-items">
+                <!-- Cart items injected here -->
+                <div class="text-center text-gray-400 mt-10">
+                    <i class="fa-solid fa-cow text-4xl mb-3 opacity-20"></i>
+                    <p>Your cart is empty.</p>
+                    <button onclick="toggleCart()" class="mt-4 text-farm-green font-semibold hover:underline">Start Shopping</button>
+                </div>
+            </div>
+
+            <div class="p-6 border-t bg-gray-50">
+                <div class="flex justify-between items-center mb-4 text-lg font-bold text-gray-800">
+                    <span>Total:</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+                <button onclick="openCheckout()" id="checkout-btn" disabled class="w-full bg-farm-green hover:bg-green-700 disabled:bg-gray-400 text-white py-3 rounded-xl font-bold shadow-lg transition flex items-center justify-center gap-2">
+                    Proceed to Pay <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal (QR Code) -->
+    <div id="payment-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closePayment()"></div>
+        <div class="bg-white rounded-2xl p-8 max-w-sm w-full relative z-10 text-center shadow-2xl animate-fade-in-up">
+            <button onclick="closePayment()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fa-solid fa-times text-lg"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Scan to Pay</h3>
+            <p class="text-gray-500 text-sm mb-6">Total Amount: <span id="payment-total" class="font-bold text-gray-900 text-lg">₹0</span></p>
+            
+            <div class="bg-white p-4 rounded-xl border-2 border-dashed border-gray-300 mx-auto w-64 h-64 flex items-center justify-center mb-6 relative overflow-hidden group">
+                <!-- Swastik Dairy QR Code -->
+                <img src="qr_code.jpeg" 
+                     id="qr-image" 
+                     alt="UPI QR Code" 
+                     class="w-full h-full object-contain">
+                <div class="absolute inset-0 bg-white/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-xs font-bold text-gray-600">Scan via Any UPI App</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-400 mb-6">Accepting GPay, PhonePe, Paytm, BHIM</p>
+
+            <a id="whatsapp-confirm" href="#" target="_blank" class="block w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold shadow-md transition">
+                <i class="fa-brands fa-whatsapp"></i> Confirm Order on WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Check if a logo image was successfully loaded and hide the icon if it was.
+        window.onload = function() {
+            const logoImg = document.getElementById('main-logo-img');
+            // Check if the logo image exists and has loaded successfully (naturalHeight > 0 means it's a real image)
+            if (logoImg && logoImg.complete && logoImg.naturalHeight !== 0) {
+                logoImg.classList.remove('hidden');
+                // Hide the fallback icon div
+                const fallbackIcon = logoImg.nextElementSibling;
+                if (fallbackIcon) {
+                    fallbackIcon.style.display = 'none';
+                }
+            } else {
+                 // If image failed to load, ensure the icon is visible (default state)
+                 const fallbackIcon = logoImg.nextElementSibling;
+                 if (fallbackIcon) {
+                    fallbackIcon.style.display = 'flex';
+                 }
+            }
+
+            // Also run other initialization logic
+            document.getElementById('product-grid').innerHTML = renderProducts();
+            
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    nav.classList.add('shadow-md', 'py-2');
+                    nav.classList.remove('py-3');
+                } else {
+                    nav.classList.remove('shadow-md', 'py-2');
+                    nav.classList.add('py-3');
+                }
+            });
+        };
+
+
+        // Product Data
+        const products = [
+            {
+                id: 1,
+                name: "Fresh Farm Milk",
+                description: "Pure, unprocessed raw milk directly from healthy cows.",
+                image: "milk bucket.jpg",
+                variants: [
+                    { size: "1 Liter", price: 99 },
+                    { size: "500 ml", price: 50 }
+                ],
+                tag: "Best Seller"
+            },
+            {
+                id: 2,
+                name: "Buffalo Ghee",
+                description: "Traditional Bilona method, rich aroma and granular texture.",
+                image: "buffalo ghee.jpg",
+                variants: [
+                    { size: "1 Kg", price: 1699 },
+                    { size: "500 gm", price: 799 },
+                    { size: "250 gm", price: 425 }
+                ],
+                tag: "Premium"
+            },
+            {
+                id: 3,
+                name: "Desi Cow Ghee",
+                description: "Made from A2 milk, golden yellow and highly nutritious.",
+                image: "cow ghee.webp",
+                variants: [
+                    { size: "1 Kg", price: 2999 },
+                    { size: "500 ml", price: 1599 },
+                    { size: "250 ml", price: 899 }
+                ],
+                tag: "Superfood"
+            },
+            {
+                id: 4,
+                name: "Fresh Curd (Dahi)",
+                description: "Thick, creamy and naturally set curd. Perfect for digestion.",
+                image: "dahi.webp",
+                variants: [
+                    { size: "1 Kg", price: 140 },
+                    { size: "500 gm", price: 75 },
+                    { size: "250 gm", price: 40 }
+                ],
+                tag: "Fresh"
+            },
+            {
+                id: 5,
+                name: "Village Lassi",
+                description: "Refreshing traditional drink, lightly sweetened and chilled.",
+                image: "dahi.webp", // Reusing dahi image as fallback, styled differently ideally
+                variants: [
+                    { size: "1 Liter", price: 45 },
+                    { size: "500 ml", price: 25 },
+                    { size: "100 ml", price: 8 }
+                ],
+                tag: "Cooling"
+            }
+        ];
+
+        // State
+        let cart = [];
+
+        // Logic variables to track currently selected variant for each product card
+        let selectedVariants = {}; 
+
+        // Render Products
+        function renderProducts() {
+            return products.map((product, index) => `
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden product-card flex flex-col h-full relative group">
+                    ${product.tag ? `<div class="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full z-10 shadow-sm">${product.tag}</div>` : ''}
+                    <div class="h-56 overflow-hidden relative bg-gray-100">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/400x400/10B981/ffffff?text=Image+Not+Found'" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 font-serif">${product.name}</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-grow">${product.description}</p>
+                        
+                        <div class="mt-auto">
+                            <label class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2 block">Select Quantity</label>
+                            <div class="flex flex-wrap gap-2 mb-4" id="variants-${index}">
+                                ${product.variants.map((variant, vIndex) => `
+                                    <button onclick="selectVariant(${index}, ${vIndex})" 
+                                            class="variant-btn-${index} px-3 py-1 text-sm border rounded-lg transition ${vIndex === 0 ? 'border-farm-green bg-green-50 text-farm-green font-bold ring-1 ring-farm-green' : 'border-gray-200 text-gray-600 hover:border-green-300'}"
+                                            data-price="${variant.price}"
+                                            data-size="${variant.size}">
+                                        ${variant.size}
+                                    </button>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-2xl font-bold text-gray-900" id="price-${index}">₹${product.variants[0].price}</span>
+                                <button onclick="addToCart(${index})" class="bg-farm-green hover:bg-green-700 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform active:scale-95">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectVariant(productIndex, variantIndex) {
+            selectedVariants[productIndex] = variantIndex;
+            
+            // Update UI Styling
+            const buttons = document.querySelectorAll(`.variant-btn-${productIndex}`);
+            buttons.forEach((btn, idx) => {
+                if(idx === variantIndex) {
+                    btn.className = `variant-btn-${productIndex} px-3 py-1 text-sm border rounded-lg transition border-farm-green bg-green-50 text-farm-green font-bold ring-1 ring-farm-green`;
+                } else {
+                    btn.className = `variant-btn-${productIndex} px-3 py-1 text-sm border rounded-lg transition border-gray-200 text-gray-600 hover:border-green-300`;
+                }
+            });
+
+            // Update Price Display
+            const price = products[productIndex].variants[variantIndex].price;
+            const priceEl = document.getElementById(`price-${productIndex}`);
+            
+            // Simple animation for price change
+            priceEl.style.opacity = '0';
+            setTimeout(() => {
+                priceEl.innerText = `₹${price}`;
+                priceEl.style.opacity = '1';
+            }, 150);
+        }
+
+        function addToCart(productIndex) {
+            const variantIndex = selectedVariants[productIndex] || 0;
+            const product = products[productIndex];
+            const variant = product.variants[variantIndex];
+            
+            // Check if item already exists in cart with same variant
+            const existingItemIndex = cart.findIndex(item => item.id === product.id && item.size === variant.size);
+
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].qty++;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: variant.price,
+                    size: variant.size,
+                    image: product.image,
+                    qty: 1
+                });
+            }
+
+            updateCartUI();
+            
+            // Trigger cart badge animation
+            const badge = document.getElementById('cart-count');
+            badge.classList.remove('animate-pop');
+            void badge.offsetWidth; // trigger reflow
+            badge.classList.add('animate-pop');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function changeQty(index, change) {
+            if (cart[index].qty + change > 0) {
+                cart[index].qty += change;
+            } else {
+                removeFromCart(index);
+                return;
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCountBadge = document.getElementById('cart-count');
+            const cartTotalEl = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            // Update Badge
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountBadge.innerText = totalItems;
+            cartCountBadge.style.opacity = totalItems > 0 ? '1' : '0';
+
+            // Calculate Total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            cartTotalEl.innerText = `₹${total}`;
+
+            // Enable/Disable Checkout
+            checkoutBtn.disabled = cart.length === 0;
+
+            // Render Items
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center text-gray-400 mt-10 h-full flex flex-col items-center justify-center">
+                        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-basket-shopping text-3xl text-gray-300"></i>
+                        </div>
+                        <p>Your cart is empty.</p>
+                        <button onclick="toggleCart()" class="mt-4 text-farm-green font-semibold hover:underline">Start Shopping</button>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = cart.map((item, index) => `
+                    <div class="flex gap-4 p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition">
+                        <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg bg-gray-100">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+                                <button onclick="removeFromCart(${index})" class="text-gray-300 hover:text-red-500 text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">${item.size} • ₹${item.price}</p>
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center border border-gray-200 rounded-lg">
+                                    <button onclick="changeQty(${index}, -1)" class="px-2 py-1 text-gray-500 hover:bg-gray-50 rounded-l-lg">-</button>
+                                    <span class="px-2 text-sm font-bold text-gray-700">${item.qty}</span>
+                                    <button onclick="changeQty(${index}, 1)" class="px-2 py-1 text-gray-500 hover:bg-gray-50 rounded-r-lg">+</button>
+                                </div>
+                                <span class="font-bold text-farm-green ml-auto">₹${item.price * item.qty}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Modal Controls
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            const panel = document.getElementById('cart-panel');
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                // Small delay to allow display:block to apply before transform
+                setTimeout(() => {
+                    panel.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                panel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = ''; 
+                }, 300);
+            }
+        }
+
+        function openCheckout() {
+            toggleCart(); // Close cart
+            const modal = document.getElementById('payment-modal');
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            document.getElementById('payment-total').innerText = `₹${total}`;
+            
+            // Prepare WhatsApp Message
+            let message = "Hello Swastik Dairy Farm! I would like to place an order:\n\n";
+            cart.forEach(item => {
+                message += `- ${item.name} (${item.size}) x ${item.qty} = ₹${item.price * item.qty}\n`;
+            });
+            message += `\n*Total Amount: ₹${total}*\n`;
+            message += "I have scanned the QR code. Please confirm my order.";
+            
+            document.getElementById('whatsapp-confirm').href = `https://wa.me/919812186467?text=${encodeURIComponent(message)}`;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closePayment() {
+            document.getElementById('payment-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
